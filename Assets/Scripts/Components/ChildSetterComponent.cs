@@ -9,6 +9,9 @@ namespace Components
     [RequireComponent(typeof(CollisionDetectionComponent))]
     public class ChildSetterComponent : MonoBehaviour
     {
+        public Action<InventoryItemModel> InventoryItemAttached = delegate { };
+        public Action<InventoryItemModel> InventoryItemDetached = delegate { };
+
         [SerializeField]
         private List<TypeTransform> _typeTransforms = new List<TypeTransform>();
 
@@ -30,6 +33,11 @@ namespace Components
             _collisionDetectionComponent.CollisionEnter += OnCollisionEnter;
             _collisionDetectionComponent.CollisionExit += OnCollisionExit;
         }
+        private void OnDestroy()
+        {
+            _collisionDetectionComponent.CollisionEnter -= OnCollisionEnter;
+            _collisionDetectionComponent.CollisionExit -= OnCollisionExit;
+        }
 
         private void OnCollisionEnter(Collision collision)
         {
@@ -45,13 +53,24 @@ namespace Components
                 return;
             }
 
-            Destroy(collision.gameObject);
-            // collision.gameObject.transform.parent = typeTransform.Transform;
-            // collision.gameObject.transform.localPosition = Vector3.zero;
+            AttachInventoryItemToSlot(inventoryItemModel, typeTransform.Transform);
         }
         private void OnCollisionExit(Collision obj)
         {
 
+        }
+
+        private void AttachInventoryItemToSlot(InventoryItemModel inventoryItemModel, Transform container)
+        {
+            inventoryItemModel.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+            var collider = inventoryItemModel.gameObject.GetComponent<Collider>();
+            Destroy(collider);
+            var mouseDraggingGameObjectComponent = inventoryItemModel.gameObject.GetComponent<MouseDraggingGameObjectComponent>();
+            Destroy(mouseDraggingGameObjectComponent);
+            inventoryItemModel.gameObject.transform.parent = container;
+            inventoryItemModel.gameObject.transform.localPosition = Vector3.zero;
+
+            InventoryItemAttached.Invoke(inventoryItemModel);
         }
     }
 }

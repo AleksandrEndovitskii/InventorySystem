@@ -1,19 +1,45 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Components;
 using Models.InventoryItems;
 using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Models
 {
+    [RequireComponent(typeof(ChildSetterComponent))]
     public class BackpackModel : MonoBehaviour
     {
         private List<InventoryItemModel> _inventoryItemModels = new List<InventoryItemModel>();
 
         private const string _inventoryItemModelsKey = "InventoryItemModels";
 
+        private ChildSetterComponent _childSetterComponent;
+
         private void Awake()
         {
+            _childSetterComponent = this.gameObject.GetComponent<ChildSetterComponent>();
+
             Load();
+        }
+        private void Start()
+        {
+            _childSetterComponent.InventoryItemAttached += OnInventoryItemAttached;
+            _childSetterComponent.InventoryItemDetached += OnInventoryItemDetached;
+        }
+        private void OnDestroy()
+        {
+            _childSetterComponent.InventoryItemAttached -= OnInventoryItemAttached;
+            _childSetterComponent.InventoryItemDetached -= OnInventoryItemDetached;
+        }
+
+        private void OnInventoryItemAttached(InventoryItemModel inventoryItemModel)
+        {
+
+        }
+        private void OnInventoryItemDetached(InventoryItemModel inventoryItemModel)
+        {
+
         }
 
         public void AddItem(InventoryItemModel inventoryItemModel)
