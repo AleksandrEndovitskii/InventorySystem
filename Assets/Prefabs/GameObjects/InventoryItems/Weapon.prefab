@@ -20,7 +20,7 @@ PrefabInstance:
     - target: {fileID: 2864922693683662813, guid: e5bdbbc0200a0e74a966b299fd953e5f,
         type: 3}
       propertyPath: Type
-      value: AutomaticRifle
+      value: Weapon
       objectReference: {fileID: 0}
     - target: {fileID: 2864922693683662813, guid: e5bdbbc0200a0e74a966b299fd953e5f,
         type: 3}
@@ -90,7 +90,7 @@ PrefabInstance:
     - target: {fileID: 3947889685674369951, guid: e5bdbbc0200a0e74a966b299fd953e5f,
         type: 3}
       propertyPath: m_Name
-      value: AutomaticRifle
+      value: Weapon
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e5bdbbc0200a0e74a966b299fd953e5f, type: 3}
