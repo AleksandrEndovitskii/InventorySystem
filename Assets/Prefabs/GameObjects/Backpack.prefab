@@ -75,6 +75,7 @@ GameObject:
   - component: {fileID: -7712515816627409471}
   - component: {fileID: 2286477714480201076}
   - component: {fileID: 5712289950370299962}
+  - component: {fileID: 7429209019501321685}
   m_Layer: 0
   m_Name: Backpack
   m_TagString: Untagged
@@ -206,6 +207,18 @@ MonoBehaviour:
     Transform: {fileID: 4743242911194079058}
   - Type: Food
     Transform: {fileID: 8708470186694365048}
+--- !u!114 &7429209019501321685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6044206530009790431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4408ff24014f064e9effb827275bf25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8958869310620391386
 GameObject:
   m_ObjectHideFlags: 0
