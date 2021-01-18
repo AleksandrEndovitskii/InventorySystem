@@ -19,8 +19,26 @@ namespace Models
         public void AddItem(InventoryItemModel inventoryItemModel)
         {
             _inventoryItemModels.Add(inventoryItemModel);
+
+            Save();
+        }
+        public void RemoveItem(InventoryItemModel inventoryItemModel)
+        {
+            _inventoryItemModels.Remove(inventoryItemModel);
+
+            Save();
         }
 
+        private void Save()
+        {
+            var jsonString = JsonConvert.SerializeObject(_inventoryItemModels);
+
+            Debug.Log($"Saving of key({_inventoryItemModelsKey}) with value({jsonString}) started");
+
+            PlayerPrefs.SetString(_inventoryItemModelsKey, jsonString);
+
+            Debug.Log($"Saving of key({_inventoryItemModelsKey}) with value({jsonString}) finished");
+        }
         private void Load()
         {
             Debug.Log($"Loading of key({_inventoryItemModelsKey}) started");
