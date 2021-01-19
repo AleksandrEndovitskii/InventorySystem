@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -63,11 +63,15 @@ namespace Components
 
         private void AttachInventoryItemToSlot(InventoryItemView inventoryItemView, Transform container)
         {
+            // disable gravity
             inventoryItemView.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+            // disable collision detection
             var collider = inventoryItemView.gameObject.GetComponent<Collider>();
             Destroy(collider);
+            // disable mouse dragging
             var mouseDraggingGameObjectComponent = inventoryItemView.gameObject.GetComponent<MouseDraggingGameObjectComponent>();
             Destroy(mouseDraggingGameObjectComponent);
+            // set inventory item to slot
             inventoryItemView.gameObject.transform.parent = container;
             inventoryItemView.gameObject.transform.localPosition = Vector3.zero;
 
