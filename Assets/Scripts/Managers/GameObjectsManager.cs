@@ -1,0 +1,71 @@
+﻿using System.Collections.Generic;
+using Models.InventoryItems;
+using UnityEngine;
+using View.InventoryItems;
+
+namespace Managers
+{
+    public class GameObjectsManager : MonoBehaviour
+    {
+        [SerializeField]
+        private InventoryItemView _inventoryItemViewPrefab;
+        [SerializeField]
+        private Vector3 _initialPosition = new Vector3(26, 1, 10);
+        [SerializeField]
+        private Vector3 _positionStep = new Vector3(2, 0, 0);
+
+        private List<InventoryItemView> _inventoryItemViewInstances = new List<InventoryItemView>();
+
+        private void Start()
+        {
+            Initialize();
+        }
+
+        public void Initialize()
+        {
+            var inventoryItemModels = GetInventoryItemModels();
+
+            _inventoryItemViewInstances = InstantiateInventoryItems(inventoryItemModels);
+
+            SetInventoryItemsPositions(_inventoryItemViewInstances, _initialPosition, _positionStep);
+        }
+
+        private List<InventoryItemModel> GetInventoryItemModels()
+        {
+            var inventoryItemModels = new List<InventoryItemModel>();
+
+            var automaticRifle = new InventoryItemModel(1,"AutomaticRifle", "Weapon", 5);
+            inventoryItemModels.Add(automaticRifle);
+            var food = new InventoryItemModel(2,"Apple", "Food", 1);
+            inventoryItemModels.Add(food);
+            var medkit = new InventoryItemModel(3,"FirstAidKit", "Medkit", 2);
+            inventoryItemModels.Add(medkit);
+
+            return inventoryItemModels;
+        }
+
+        private List<InventoryItemView> InstantiateInventoryItems(List<InventoryItemModel> inventoryItemModels)
+        {
+            var inventoryItemViewInstances = new List<InventoryItemView>();
+
+            foreach (var inventoryItemModel in inventoryItemModels)
+            {
+                var inventoryItemViewInstance = Instantiate(_inventoryItemViewPrefab);
+                inventoryItemViewInstance.SetModel(inventoryItemModel);
+                inventoryItemViewInstances.Add(inventoryItemViewInstance);
+            }
+
+            return inventoryItemViewInstances;
+        }
+
+        private void SetInventoryItemsPositions(List<InventoryItemView> inventoryItemViewInstances,
+            Vector3 initialPosition, Vector3 positionStep)
+        {
+            for (var i = 0; i < inventoryItemViewInstances.Count; i++)
+            {
+                var inventoryItemViewInstance = inventoryItemViewInstances[i];
+                inventoryItemViewInstance.gameObject.transform.position = initialPosition + positionStep * i;
+            }
+        }
+    }
+}
