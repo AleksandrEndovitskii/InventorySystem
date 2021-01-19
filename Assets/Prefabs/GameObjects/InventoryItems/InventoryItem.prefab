@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 8957076332569081276}
   - component: {fileID: 2864922693683662813}
   - component: {fileID: 117463879606201797}
+  - component: {fileID: -9094992911923955595}
   m_Layer: 0
   m_Name: InventoryItem
   m_TagString: Untagged
@@ -149,3 +150,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df093332ebc97534ba998f729641e07e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-9094992911923955595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3947889685674369951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7396f471d924c7a98b55cd3ff41fcba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _typeMaterials:
+  - Type: Weapon
+    Material: {fileID: 2100000, guid: 05d5ef45479795947862283ac65689df, type: 2}
+  - Type: Medkit
+    Material: {fileID: 2100000, guid: 7d0e35b5d25089f4b9b6abef4d936f48, type: 2}
+  - Type: Food
+    Material: {fileID: 2100000, guid: ff18443158287d3479580a920acc3e9c, type: 2}
