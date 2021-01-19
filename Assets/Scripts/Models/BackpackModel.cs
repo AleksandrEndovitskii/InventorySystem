@@ -7,30 +7,30 @@ using View.InventoryItems;
 
 namespace Models
 {
-    [RequireComponent(typeof(ChildSetterComponent))]
+    [RequireComponent(typeof(InventoryItemsSlotSetterComponent))]
     public class BackpackModel : MonoBehaviour
     {
         private List<InventoryItemModel> _inventoryItemModels = new List<InventoryItemModel>();
 
         private const string _inventoryItemModelsKey = "InventoryItemModels";
 
-        private ChildSetterComponent _childSetterComponent;
+        private InventoryItemsSlotSetterComponent _inventoryItemsSlotSetterComponent;
 
         private void Awake()
         {
-            _childSetterComponent = this.gameObject.GetComponent<ChildSetterComponent>();
+            _inventoryItemsSlotSetterComponent = this.gameObject.GetComponent<InventoryItemsSlotSetterComponent>();
 
             Load();
         }
         private void Start()
         {
-            _childSetterComponent.InventoryItemAttached += OnInventoryItemAttached;
-            _childSetterComponent.InventoryItemDetached += OnInventoryItemDetached;
+            _inventoryItemsSlotSetterComponent.InventoryItemAttached += OnInventoryItemAttached;
+            _inventoryItemsSlotSetterComponent.InventoryItemDetached += OnInventoryItemDetached;
         }
         private void OnDestroy()
         {
-            _childSetterComponent.InventoryItemAttached -= OnInventoryItemAttached;
-            _childSetterComponent.InventoryItemDetached -= OnInventoryItemDetached;
+            _inventoryItemsSlotSetterComponent.InventoryItemAttached -= OnInventoryItemAttached;
+            _inventoryItemsSlotSetterComponent.InventoryItemDetached -= OnInventoryItemDetached;
         }
 
         private void OnInventoryItemAttached(InventoryItemView inventoryItemView)

@@ -7,7 +7,7 @@ using View.InventoryItems;
 namespace Components
 {
     [RequireComponent(typeof(CollisionDetectionComponent))]
-    public class ChildSetterComponent : MonoBehaviour
+    public class InventoryItemsSlotSetterComponent : MonoBehaviour
     {
         public Action<InventoryItemView> InventoryItemAttached = delegate { };
         public Action<InventoryItemView> InventoryItemDetached = delegate { };
@@ -61,7 +61,7 @@ namespace Components
 
         }
 
-        private void AttachInventoryItemToSlot(InventoryItemView inventoryItemView, Transform container)
+        private void AttachInventoryItemToSlot(InventoryItemView inventoryItemView, Transform slot)
         {
             // disable gravity
             inventoryItemView.gameObject.GetComponent<Rigidbody>().isKinematic = true;
@@ -72,7 +72,7 @@ namespace Components
             var mouseDraggingGameObjectComponent = inventoryItemView.gameObject.GetComponent<MouseDraggingGameObjectComponent>();
             Destroy(mouseDraggingGameObjectComponent);
             // set inventory item to slot
-            inventoryItemView.gameObject.transform.parent = container;
+            inventoryItemView.gameObject.transform.parent = slot;
             inventoryItemView.gameObject.transform.localPosition = Vector3.zero;
 
             InventoryItemAttached.Invoke(inventoryItemView);
