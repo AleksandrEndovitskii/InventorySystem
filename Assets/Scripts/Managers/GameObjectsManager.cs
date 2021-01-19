@@ -51,7 +51,7 @@ namespace Managers
             foreach (var inventoryItemModel in inventoryItemModels)
             {
                 var inventoryItemViewInstance = Instantiate(_inventoryItemViewPrefab);
-                inventoryItemViewInstance.SetModel(inventoryItemModel);
+                inventoryItemViewInstance.InventoryItemModel = inventoryItemModel;
                 inventoryItemViewInstances.Add(inventoryItemViewInstance);
             }
 
