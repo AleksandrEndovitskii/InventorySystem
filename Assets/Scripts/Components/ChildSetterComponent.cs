@@ -56,7 +56,7 @@ namespace Components
 
             AttachInventoryItemToSlot(inventoryItemView, typeTransform.Transform);
         }
-        private void OnCollisionExit(Collision obj)
+        private void OnCollisionExit(Collision collision)
         {
 
         }
