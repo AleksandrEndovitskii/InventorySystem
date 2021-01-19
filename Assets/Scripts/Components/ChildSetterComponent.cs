@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using Models.InventoryItems;
 using UnityEngine;
+using View.InventoryItems;
 
 namespace Components
 {
     [RequireComponent(typeof(CollisionDetectionComponent))]
     public class ChildSetterComponent : MonoBehaviour
     {
-        public Action<InventoryItemModel> InventoryItemAttached = delegate { };
-        public Action<InventoryItemModel> InventoryItemDetached = delegate { };
+        public Action<InventoryItemView> InventoryItemAttached = delegate { };
+        public Action<InventoryItemView> InventoryItemDetached = delegate { };
 
         [SerializeField]
         private List<TypeTransform> _typeTransforms = new List<TypeTransform>();
@@ -41,36 +42,37 @@ namespace Components
 
         private void OnCollisionEnter(Collision collision)
         {
-            var inventoryItemModel = collision.gameObject.GetComponent<InventoryItemModel>();
-            if (inventoryItemModel == null)
+            var inventoryItemView = collision.gameObject.GetComponent<InventoryItemView>();
+            if (inventoryItemView == null)
             {
                 return;
             }
 
-            var typeTransform = _typeTransforms.FirstOrDefault(x=>x.Type == inventoryItemModel.Type);
+            var typeTransform = _typeTransforms.FirstOrDefault(x =>
+                x.Type == inventoryItemView.InventoryItemModel.Type);
             if (typeTransform == null)
             {
                 return;
             }
 
-            AttachInventoryItemToSlot(inventoryItemModel, typeTransform.Transform);
+            AttachInventoryItemToSlot(inventoryItemView, typeTransform.Transform);
         }
         private void OnCollisionExit(Collision obj)
         {
 
         }
 
-        private void AttachInventoryItemToSlot(InventoryItemModel inventoryItemModel, Transform container)
+        private void AttachInventoryItemToSlot(InventoryItemView inventoryItemView, Transform container)
         {
-            inventoryItemModel.gameObject.GetComponent<Rigidbody>().isKinematic = true;
-            var collider = inventoryItemModel.gameObject.GetComponent<Collider>();
+            inventoryItemView.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+            var collider = inventoryItemView.gameObject.GetComponent<Collider>();
             Destroy(collider);
-            var mouseDraggingGameObjectComponent = inventoryItemModel.gameObject.GetComponent<MouseDraggingGameObjectComponent>();
+            var mouseDraggingGameObjectComponent = inventoryItemView.gameObject.GetComponent<MouseDraggingGameObjectComponent>();
             Destroy(mouseDraggingGameObjectComponent);
-            inventoryItemModel.gameObject.transform.parent = container;
-            inventoryItemModel.gameObject.transform.localPosition = Vector3.zero;
+            inventoryItemView.gameObject.transform.parent = container;
+            inventoryItemView.gameObject.transform.localPosition = Vector3.zero;
 
-            InventoryItemAttached.Invoke(inventoryItemModel);
+            InventoryItemAttached.Invoke(inventoryItemView);
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Models.InventoryItems
 {
-    public class InventoryItemModel : MonoBehaviour
+    public class InventoryItemModel
     {
         public int Id;
         public string Name;

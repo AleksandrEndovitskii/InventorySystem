@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Components;
 using Models.InventoryItems;
 using Newtonsoft.Json;
 using UnityEngine;
+using View.InventoryItems;
 
 namespace Models
 {
@@ -33,11 +33,11 @@ namespace Models
             _childSetterComponent.InventoryItemDetached -= OnInventoryItemDetached;
         }
 
-        private void OnInventoryItemAttached(InventoryItemModel inventoryItemModel)
+        private void OnInventoryItemAttached(InventoryItemView inventoryItemView)
         {
 
         }
-        private void OnInventoryItemDetached(InventoryItemModel inventoryItemModel)
+        private void OnInventoryItemDetached(InventoryItemView inventoryItemView)
         {
 
         }
