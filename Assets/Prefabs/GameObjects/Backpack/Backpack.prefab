@@ -78,6 +78,7 @@ GameObject:
   - component: {fileID: 7429209019501321685}
   - component: {fileID: 9151406960247693151}
   - component: {fileID: 2318333388702909598}
+  - component: {fileID: 5218417387033828189}
   m_Layer: 0
   m_Name: Backpack
   m_TagString: Untagged
@@ -246,6 +247,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 789131e5fca9a614ca04e3dbacec41fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5218417387033828189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6044206530009790431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46e358e2b9ffc874ab7cbded4dead553, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8958869310620391386
 GameObject:
   m_ObjectHideFlags: 0
@@ -393,6 +406,11 @@ PrefabInstance:
       propertyPath: _targetableComponent
       value: 
       objectReference: {fileID: 2318333388702909598}
+    - target: {fileID: 9117937882839976810, guid: 05a7ff297c296d44da9019c4f35af55f,
+        type: 3}
+      propertyPath: _interactableComponent
+      value: 
+      objectReference: {fileID: 5218417387033828189}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05a7ff297c296d44da9019c4f35af55f, type: 3}
 --- !u!224 &4357328977773685340 stripped

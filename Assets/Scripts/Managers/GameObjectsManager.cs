@@ -29,6 +29,11 @@ namespace Managers
         {
             foreach (var inventoryItemViewInstance in _inventoryItemViewInstances)
             {
+                if (inventoryItemViewInstance == null)
+                {
+                    continue;
+                }
+
                 Destroy(inventoryItemViewInstance.gameObject);
             }
             _inventoryItemViewInstances.Clear();
