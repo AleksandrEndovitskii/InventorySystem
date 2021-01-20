@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using Models.InventoryItems;
 using UnityEngine;
+using Utils;
 using View.InventoryItems;
 
 namespace Managers
 {
-    public class GameObjectsManager : MonoBehaviour
+    public class GameObjectsManager : MonoBehaviour, IInitilizable, IUnInitializeble
     {
         [SerializeField]
         private InventoryItemView _inventoryItemViewPrefab;
@@ -16,11 +17,6 @@ namespace Managers
 
         private List<InventoryItemView> _inventoryItemViewInstances = new List<InventoryItemView>();
 
-        private void Start()
-        {
-            Initialize();
-        }
-
         public void Initialize()
         {
             var inventoryItemModels = GetInventoryItemModels();
@@ -28,6 +24,14 @@ namespace Managers
             _inventoryItemViewInstances = InstantiateInventoryItems(inventoryItemModels);
 
             SetInventoryItemsPositions(_inventoryItemViewInstances, _initialPosition, _positionStep);
+        }
+        public void UnInitialize()
+        {
+            foreach (var inventoryItemViewInstance in _inventoryItemViewInstances)
+            {
+                Destroy(inventoryItemViewInstance.gameObject);
+            }
+            _inventoryItemViewInstances.Clear();
         }
 
         public InventoryItemView Create(InventoryItemModel inventoryItemModel)
