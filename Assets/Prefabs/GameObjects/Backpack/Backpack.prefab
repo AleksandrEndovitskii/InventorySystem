@@ -77,6 +77,7 @@ GameObject:
   - component: {fileID: 5712289950370299962}
   - component: {fileID: 7429209019501321685}
   - component: {fileID: 9151406960247693151}
+  - component: {fileID: 2318333388702909598}
   m_Layer: 0
   m_Name: Backpack
   m_TagString: Untagged
@@ -233,6 +234,18 @@ MonoBehaviour:
     Transform: {fileID: 5896684545697155197}
   - Type: Medkit
     Transform: {fileID: 8708470186694365048}
+--- !u!114 &2318333388702909598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6044206530009790431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 789131e5fca9a614ca04e3dbacec41fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8958869310620391386
 GameObject:
   m_ObjectHideFlags: 0
