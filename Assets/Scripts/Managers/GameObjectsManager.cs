@@ -30,6 +30,13 @@ namespace Managers
             SetInventoryItemsPositions(_inventoryItemViewInstances, _initialPosition, _positionStep);
         }
 
+        public InventoryItemView Create(InventoryItemModel inventoryItemModel)
+        {
+            var inventoryItemViewInstance = Instantiate(_inventoryItemViewPrefab);
+            inventoryItemViewInstance.InventoryItemModel = inventoryItemModel;
+            return inventoryItemViewInstance;
+        }
+
         private List<InventoryItemModel> GetInventoryItemModels()
         {
             var inventoryItemModels = new List<InventoryItemModel>();
@@ -50,8 +57,7 @@ namespace Managers
 
             foreach (var inventoryItemModel in inventoryItemModels)
             {
-                var inventoryItemViewInstance = Instantiate(_inventoryItemViewPrefab);
-                inventoryItemViewInstance.InventoryItemModel = inventoryItemModel;
+                var inventoryItemViewInstance = Create(inventoryItemModel);
                 inventoryItemViewInstances.Add(inventoryItemViewInstance);
             }
 

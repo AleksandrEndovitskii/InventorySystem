@@ -1,80 +1,91 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Components;
 using Models.InventoryItems;
 using Newtonsoft.Json;
 using UnityEngine;
-using View.InventoryItems;
 
 namespace Models
 {
-    [RequireComponent(typeof(InventoryItemsSlotSetterComponent))]
+    [RequireComponent(typeof(InventoryItemsOnCollisionEnterBakcpackAddingComponent))]
     public class BackpackModel : MonoBehaviour
     {
+        public Action<InventoryItemModel> InventoryItemModelAdded = delegate {  };
+        public Action<InventoryItemModel> InventoryItemModelRemoved = delegate {  };
+
+        public List<InventoryItemModel> InventoryItemModels
+        {
+            get
+            {
+                return _inventoryItemModels;
+            }
+            set
+            {
+                _inventoryItemModels = value;
+            }
+        }
+
         private List<InventoryItemModel> _inventoryItemModels = new List<InventoryItemModel>();
 
         private const string _inventoryItemModelsKey = "InventoryItemModels";
 
-        private InventoryItemsSlotSetterComponent _inventoryItemsSlotSetterComponent;
-
         private void Awake()
         {
-            _inventoryItemsSlotSetterComponent = this.gameObject.GetComponent<InventoryItemsSlotSetterComponent>();
-
-            Load();
-        }
-        private void Start()
-        {
-            _inventoryItemsSlotSetterComponent.InventoryItemAttached += OnInventoryItemAttached;
-            _inventoryItemsSlotSetterComponent.InventoryItemDetached += OnInventoryItemDetached;
-        }
-        private void OnDestroy()
-        {
-            _inventoryItemsSlotSetterComponent.InventoryItemAttached -= OnInventoryItemAttached;
-            _inventoryItemsSlotSetterComponent.InventoryItemDetached -= OnInventoryItemDetached;
-        }
-
-        private void OnInventoryItemAttached(InventoryItemView inventoryItemView)
-        {
-
-        }
-        private void OnInventoryItemDetached(InventoryItemView inventoryItemView)
-        {
-
+            var inventoryItemModels = Load();
+            foreach (var inventoryItemModel in inventoryItemModels)
+            {
+                AddItem(inventoryItemModel);
+            }
         }
 
         public void AddItem(InventoryItemModel inventoryItemModel)
         {
             _inventoryItemModels.Add(inventoryItemModel);
 
-            Save();
+            Debug.Log($"InventoryItemModel({inventoryItemModel}) was added to " +
+                      $"InventoryItemModels({_inventoryItemModels}) started");
+
+            InventoryItemModelAdded.Invoke(inventoryItemModel);
+
+            Save(_inventoryItemModelsKey, _inventoryItemModels);
         }
         public void RemoveItem(InventoryItemModel inventoryItemModel)
         {
             _inventoryItemModels.Remove(inventoryItemModel);
 
-            Save();
+            Debug.Log($"InventoryItemModel({inventoryItemModel}) was removed to " +
+                      $"InventoryItemModels({_inventoryItemModels}) started");
+
+            InventoryItemModelRemoved.Invoke(inventoryItemModel);
+
+            Save(_inventoryItemModelsKey, _inventoryItemModels);
         }
 
-        private void Save()
+        private void Save(string inventoryItemModelsKey, List<InventoryItemModel> inventoryItemModels)
         {
-            var jsonString = JsonConvert.SerializeObject(_inventoryItemModels);
+            var jsonString = JsonConvert.SerializeObject(inventoryItemModels);
 
-            Debug.Log($"Saving of key({_inventoryItemModelsKey}) with value({jsonString}) started");
+            Debug.Log($"Saving of key({inventoryItemModelsKey}) with value({jsonString}) started");
 
-            PlayerPrefs.SetString(_inventoryItemModelsKey, jsonString);
+            PlayerPrefs.SetString(inventoryItemModelsKey, jsonString);
 
-            Debug.Log($"Saving of key({_inventoryItemModelsKey}) with value({jsonString}) finished");
+            Debug.Log($"Saving of key({inventoryItemModelsKey}) with value({jsonString}) finished");
         }
-        private void Load()
+        private List<InventoryItemModel> Load()
         {
             Debug.Log($"Loading of key({_inventoryItemModelsKey}) started");
 
             var inventoryItemModels = new List<InventoryItemModel>();
             var inventoryItemModelsDefaultValue = JsonConvert.SerializeObject(inventoryItemModels);
             var jsonString = PlayerPrefs.GetString(_inventoryItemModelsKey, inventoryItemModelsDefaultValue);
-            _inventoryItemModels = JsonConvert.DeserializeObject<List<InventoryItemModel>>(jsonString);
+            // list of inventory items can contain null items
+            inventoryItemModels = JsonConvert.DeserializeObject<List<InventoryItemModel>>(jsonString);
+            // clear null items from list of inventory items
+            inventoryItemModels.RemoveAll(x => x == null);
 
             Debug.Log($"Loading of key({_inventoryItemModelsKey}) with value({jsonString}) finished");
+
+            return inventoryItemModels;
         }
     }
 }

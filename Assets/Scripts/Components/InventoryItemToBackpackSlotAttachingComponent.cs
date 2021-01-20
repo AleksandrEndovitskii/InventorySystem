@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Managers;
+using Models;
+using Models.InventoryItems;
 using UnityEngine;
 using View.InventoryItems;
 
 namespace Components
 {
-    [RequireComponent(typeof(CollisionDetectionComponent))]
-    public class InventoryItemsSlotSetterComponent : MonoBehaviour
+    [RequireComponent(typeof(BackpackModel))]
+    [RequireComponent(typeof(InventoryItemsOnCollisionEnterBakcpackAddingComponent))]
+    public class InventoryItemToBackpackSlotAttachingComponent : MonoBehaviour
     {
         public Action<InventoryItemView> InventoryItemAttached = delegate { };
         public Action<InventoryItemView> InventoryItemDetached = delegate { };
@@ -22,30 +26,33 @@ namespace Components
             public Transform Transform;
         }
 
-        private CollisionDetectionComponent _collisionDetectionComponent;
+        private BackpackModel _backpackModel;
+        private GameObjectsManager _gameObjectsManager;
 
         private void Awake()
         {
-            _collisionDetectionComponent = this.gameObject.GetComponent<CollisionDetectionComponent>();
+            _backpackModel = this.gameObject.GetComponent<BackpackModel>();
+
+            _gameObjectsManager = FindObjectOfType<GameObjectsManager>();
         }
         private void Start()
         {
-            _collisionDetectionComponent.CollisionEnter += OnCollisionEnter;
-            _collisionDetectionComponent.CollisionExit += OnCollisionExit;
+            _backpackModel.InventoryItemModelAdded += OnInventoryItemModelAdded;
+            _backpackModel.InventoryItemModelRemoved += OnInventoryItemModelRemoved;
+            foreach (var inventoryItemModel in _backpackModel.InventoryItemModels)
+            {
+                OnInventoryItemModelAdded(inventoryItemModel);
+            }
         }
         private void OnDestroy()
         {
-            _collisionDetectionComponent.CollisionEnter -= OnCollisionEnter;
-            _collisionDetectionComponent.CollisionExit -= OnCollisionExit;
+            _backpackModel.InventoryItemModelAdded -= OnInventoryItemModelAdded;
+            _backpackModel.InventoryItemModelRemoved -= OnInventoryItemModelRemoved;
         }
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnInventoryItemModelAdded(InventoryItemModel inventoryItemModel)
         {
-            var inventoryItemView = collision.gameObject.GetComponent<InventoryItemView>();
-            if (inventoryItemView == null)
-            {
-                return;
-            }
+            var inventoryItemView = _gameObjectsManager.Create(inventoryItemModel);
 
             var typeTransform = _typeTransforms.FirstOrDefault(x =>
                 x.Type == inventoryItemView.InventoryItemModel.Type);
@@ -56,7 +63,7 @@ namespace Components
 
             AttachInventoryItemToSlot(inventoryItemView, typeTransform.Transform);
         }
-        private void OnCollisionExit(Collision collision)
+        private void OnInventoryItemModelRemoved(InventoryItemModel inventoryItemModel)
         {
 
         }
