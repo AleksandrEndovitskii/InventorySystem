@@ -2,7 +2,7 @@
 using UnityEngine;
 using View.InventoryItems;
 
-namespace Components
+namespace Components.InventoryItemComponents
 {
     [RequireComponent(typeof(CollisionDetectionComponent))]
     [RequireComponent(typeof(BackpackModel))]

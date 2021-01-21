@@ -7,7 +7,7 @@ using Models.InventoryItems;
 using UnityEngine;
 using View.InventoryItems;
 
-namespace Components
+namespace Components.InventoryItemComponents
 {
     [RequireComponent(typeof(BackpackModel))]
     [RequireComponent(typeof(InventoryItemsOnCollisionEnterBakcpackAddingComponent))]

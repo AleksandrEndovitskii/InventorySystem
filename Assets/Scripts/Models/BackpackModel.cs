@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Components;
+using Components.InventoryItemComponents;
 using Models.InventoryItems;
 using Newtonsoft.Json;
 using UnityEngine;
